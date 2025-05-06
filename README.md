@@ -4,7 +4,7 @@
 
 BovineShell brings your terminal to life by combining the classic cowsay ASCII art with Windows text-to-speech capabilities. Now your terminal cows don't just display messages - they speak them out loud!
 
-![BovineShell Demo](img/demo.gif)
+
 
 ## Quick Install
 
@@ -13,7 +13,7 @@ BovineShell brings your terminal to life by combining the classic cowsay ASCII a
 Copy and paste this one-liner in PowerShell to install everything:
 
 ```powershell
-iex (iwr -useb https://raw.githubusercontent.com/saedarm/BovineShell/main/install.ps1)
+iex (iwr -useb [https://raw.githubusercontent.com/saedarm/BovineShell/main/install.ps1](https://github.com/saedarm/BovineShell/blob/main/Install.ps1))
 ```
 
 This script will:
