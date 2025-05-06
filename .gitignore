@@ -1,0 +1,29 @@
+# Windows specific files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# PowerShell specific
+*.pssproj
+*.ps1xml
+*.psc1
+*.psd1
+*.psm1
+*.pssc
+*.psrc
+*.cdxml
+
+# Visual Studio Code
+.vscode/
+.history/
+
+# Temp files
+temp/
+tmp/
+*.tmp
+*.bak
+*.log
+
+# Scoop specific
+.bucket
