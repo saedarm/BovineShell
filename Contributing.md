@@ -1,15 +1,15 @@
-# Contributing to MooTalk
+# Contributing to BovineShell
 
-First off, thank you for considering contributing to MooTalk! It's people like you that make MooTalk such a fun tool.
+First off, thank you for considering contributing to BovineShell! It's people like you that make BovineShell such a fun tool.
 
 ## How Can I Contribute?
 
 ### Reporting Bugs
 
-This section guides you through submitting a bug report for MooTalk. Following these guidelines helps maintainers understand your report, reproduce the behavior, and find related reports.
+This section guides you through submitting a bug report for BovineShell. Following these guidelines helps maintainers understand your report, reproduce the behavior, and find related reports.
 
 **Before Submitting A Bug Report:**
-- Check the [issues](https://github.com/yourusername/mootalk/issues) to see if the bug has already been reported
+- Check the [issues](https://github.com/yourusername/BovineShell/issues) to see if the bug has already been reported
 - Try running with the `-Verbose` parameter to get more output
 
 **How Do I Submit A Bug Report?**
@@ -23,13 +23,13 @@ This section guides you through submitting a bug report for MooTalk. Following t
 ### Suggesting Enhancements
 
 **Before Submitting An Enhancement Suggestion:**
-- Check the [issues](https://github.com/yourusername/mootalk/issues) to see if the enhancement has already been suggested
+- Check the [issues](https://github.com/yourusername/BovineShell/issues) to see if the enhancement has already been suggested
 
 **How Do I Submit An Enhancement Suggestion?**
 - Use a clear and descriptive title
 - Provide a step-by-step description of the suggested enhancement
 - Provide specific examples to demonstrate the enhancement
-- Explain why this enhancement would be useful to MooTalk users
+- Explain why this enhancement would be useful to BovineShell users
 
 ### Pull Requests
 
