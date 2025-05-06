@@ -9,7 +9,9 @@
         ["Voices.ps1", "bovineshell-voices"]
     ],
     "url": "https://github.com/saedarm/BovineShell/archive/v1.0.0.zip",
-    "hash": "GENERATE_HASH_WHEN_PUBLISHING",
+    "hash": {
+    "url": "skip"
+}
     "extract_to": ".",
     "checkver": "github",
     "autoupdate": {
