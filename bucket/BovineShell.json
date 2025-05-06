@@ -1,19 +1,19 @@
 {
     "version": "1.0.0",
     "description": "BovineShell - A talking cowsay for Windows with text-to-speech capabilities",
-    "homepage": "https://github.com/yourusername/BovineShell",
+    "homepage": "https://github.com/saedarm/BovineShell",
     "license": "MIT",
     "depends": ["cowsay"],
     "bin": [
-        "BovineShell.ps1",
-        "BovineShell-Voices.ps1"
+        ["BovineShell.ps1", "bovineshell"],
+        ["Voices.ps1", "bovineshell-voices"]
     ],
-    "url": "https://github.com/yourusername/BovineShell/archive/v1.0.0.zip",
+    "url": "https://github.com/saedarm/BovineShell/archive/v1.0.0.zip",
     "hash": "GENERATE_HASH_WHEN_PUBLISHING",
-    "extract_dir": "BovineShell-1.0.0",
+    "extract_to": ".",
     "checkver": "github",
     "autoupdate": {
-        "url": "https://github.com/yourusername/BovineShell/archive/v$version.zip",
-        "extract_dir": "BovineShell-$version"
+        "url": "https://github.com/saedarm/BovineShell/archive/v$version.zip",
+        "extract_to": "."
     }
 }
