@@ -58,7 +58,7 @@ if ($buckets -match "bovineshell") {
 
 if (-not $bucketExists) {
     try {
-        scoop bucket add bovineshell https://github.com/yourusername/bovineshell
+        scoop bucket add bovineshell https://github.com/saedarm/bovineshell
         Write-Host "✓ BovineShell bucket added successfully!" -ForegroundColor Green
     }
     catch {
