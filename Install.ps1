@@ -1,86 +1,3 @@
-# BovineShell Installer Script
-# This script installs Scoop if needed, then installs BovineShell and its dependencies
-
-Write-Host "
-╔═══════════════════════════════════════╗
-║         BovineShell Installer         ║
-║  The Windows Terminal Cow That Speaks ║
-╚═══════════════════════════════════════╝
-" -ForegroundColor Cyan
-
-# Function to check if a command exists
-function Test-CommandExists {
-    param ($command)
-    $exists = $null -ne (Get-Command $command -ErrorAction SilentlyContinue)
-    return $exists
-}
-
-# Step 1: Install Scoop if it's not already installed
-if (-not (Test-CommandExists "scoop")) {
-    Write-Host "Step 1: Installing Scoop package manager..." -ForegroundColor Yellow
-    try {
-        Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
-        Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
-        Write-Host "✓ Scoop installed successfully!" -ForegroundColor Green
-    }
-    catch {
-        Write-Host "✗ Failed to install Scoop. Error: $_" -ForegroundColor Red
-        exit 1
-    }
-}
-else {
-    Write-Host "✓ Scoop is already installed." -ForegroundColor Green
-}
-
-# Step 2: Install cowsay (dependency)
-if (-not (Test-CommandExists "cowsay")) {
-    Write-Host "Step 2: Installing cowsay dependency..." -ForegroundColor Yellow
-    try {
-        scoop install cowsay
-        Write-Host "✓ cowsay installed successfully!" -ForegroundColor Green
-    }
-    catch {
-        Write-Host "✗ Failed to install cowsay. Error: $_" -ForegroundColor Red
-        exit 1
-    }
-}
-else {
-    Write-Host "✓ cowsay is already installed." -ForegroundColor Green
-}
-
-# Step 3: Add the BovineShell bucket if it doesn't exist
-Write-Host "Step 3: Adding BovineShell bucket to Scoop..." -ForegroundColor Yellow
-$bucketExists = $false
-$buckets = scoop bucket list
-if ($buckets -match "bovineshell") {
-    $bucketExists = $true
-}
-
-if (-not $bucketExists) {
-    try {
-        scoop bucket add bovineshell https://github.com/saedarm/bovineshell
-        Write-Host "✓ BovineShell bucket added successfully!" -ForegroundColor Green
-    }
-    catch {
-        Write-Host "✗ Failed to add BovineShell bucket. Error: $_" -ForegroundColor Red
-        exit 1
-    }
-}
-else {
-    Write-Host "✓ BovineShell bucket is already added." -ForegroundColor Green
-}
-
-# Step 4: Install BovineShell
-Write-Host "Step 4: Installing BovineShell..." -ForegroundColor Yellow
-try {
-    scoop install bovineshell
-    Write-Host "✓ BovineShell installed successfully!" -ForegroundColor Green
-}
-catch {
-    Write-Host "✗ Failed to install BovineShell. Error: $_" -ForegroundColor Red
-    exit 1
-}
-
 # Display usage information
 Write-Host "
 ╔═══════════════════════════════════════╗
@@ -101,9 +18,20 @@ Write-Host "- See all available voices: " -NoNewline
 Write-Host "bovineshell-voices" -ForegroundColor Yellow
 
 Write-Host "
-For more information and examples, visit: https://github.com/yourusername/bovineshell
+For more information and examples, visit: https://github.com/saedarm/bovineshell
 " -ForegroundColor Cyan
 
-# Test BovineShell with a welcoming message
+# Try to run BovineShell directly from its installed location
 Write-Host "Launching BovineShell with a welcome message..." -ForegroundColor Magenta
-bovineshell "Installation complete! BovineShell is ready to use!"
+try {
+    # Find installation path
+    $installPath = scoop prefix bovineshell
+    if (Test-Path "$installPath\BovineShell.ps1") {
+        & "$installPath\BovineShell.ps1" "Installation complete! BovineShell is ready to use!"
+        Write-Host "`nNOTE: You may need to restart your PowerShell session for the 'bovineshell' command to work globally." -ForegroundColor Yellow
+    } else {
+        Write-Host "BovineShell script not found at expected location. Please restart your PowerShell session and try running 'bovineshell' directly." -ForegroundColor Yellow
+    }
+} catch {
+    Write-Host "Could not run BovineShell directly. Please restart your PowerShell session and try running 'bovineshell' directly." -ForegroundColor Yellow
+}
