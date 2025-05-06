@@ -8,14 +8,12 @@
         ["BovineShell.ps1", "bovineshell"],
         ["Voices.ps1", "bovineshell-voices"]
     ],
-    "url": "https://github.com/saedarm/BovineShell/archive/v1.0.0.zip",
-    "hash": {
-    "url": "skip"
-}
-    "extract_to": ".",
+    "url": "https://github.com/saedarm/BovineShell/archive/refs/heads/main.zip",
+    "hash": "skip",
+    "extract_dir": "BovineShell-main",
     "checkver": "github",
     "autoupdate": {
-        "url": "https://github.com/saedarm/BovineShell/archive/v$version.zip",
-        "extract_to": "."
+        "url": "https://github.com/saedarm/BovineShell/archive/refs/heads/main.zip",
+        "extract_dir": "BovineShell-main"
     }
 }
