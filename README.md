@@ -13,7 +13,7 @@ BovineShell brings your terminal to life by combining the classic cowsay ASCII a
 Copy and paste this one-liner in PowerShell to install everything:
 
 ```powershell
-iex (iwr -useb [https://raw.githubusercontent.com/saedarm/BovineShell/main/install.ps1](https://github.com/saedarm/BovineShell/blob/main/Install.ps1))
+iex (iwr -useb https://github.com/saedarm/BovineShell/blob/main/Install.ps1
 ```
 
 This script will:
