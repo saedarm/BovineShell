@@ -34,7 +34,7 @@ irm get.scoop.sh | iex
 scoop install cowsay
 
 # Add the BovineShell bucket
-scoop bucket add BovineShell https://github.com/yourusername/BovineShell
+scoop bucket add BovineShell https://github.com/saedarm/BovineShell
 
 # Install BovineShell
 scoop install BovineShell
@@ -127,7 +127,7 @@ BovineShell "Sometimes I wonder if I'm real or just an ASCII representation of a
 
 The Ultimate System Report:
 ```powershell
-"Hello $env:USERNAME! I've noticed you're running Windows $((Get-WmiObject -Class Win32_OperatingSystem).Version) on this $((Get-WmiObject -Class Win32_ComputerSystem).Model). You have $((Get-WmiObject -Class Win32_ComputerSystem).NumberOfProcessors) processor(s) and $(((Get-WmiObject -Class Win32_ComputerSystem).TotalPhysicalMemory/1GB).ToString('F2')) GB of RAM. That's $(if ((Get-WmiObject -Class Win32_ComputerSystem).TotalPhysicalMemory/1GB -gt 16) {'quite impressive'} else {'not too shabby'})!" | BovineShell -Character tux
+"Hello $env:saedarm! I've noticed you're running Windows $((Get-WmiObject -Class Win32_OperatingSystem).Version) on this $((Get-WmiObject -Class Win32_ComputerSystem).Model). You have $((Get-WmiObject -Class Win32_ComputerSystem).NumberOfProcessors) processor(s) and $(((Get-WmiObject -Class Win32_ComputerSystem).TotalPhysicalMemory/1GB).ToString('F2')) GB of RAM. That's $(if ((Get-WmiObject -Class Win32_ComputerSystem).TotalPhysicalMemory/1GB -gt 16) {'quite impressive'} else {'not too shabby'})!" | BovineShell -Character tux
 ```
 
 ## Practical Uses
