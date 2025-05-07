@@ -1,85 +1,74 @@
-# BovineShell Installer Script
-# This script installs Scoop if needed, then installs BovineShell and its dependencies
+# BovineShell Direct Installer
+# This script installs BovineShell directly without using Scoop
 
 Write-Host "
 ╔═══════════════════════════════════════╗
-║         BovineShell Installer         ║
+║       BovineShell Direct Install      ║
 ║  The Windows Terminal Cow That Speaks ║
 ╚═══════════════════════════════════════╝
 " -ForegroundColor Cyan
 
-# Function to check if a command exists
-function Test-CommandExists {
-    param ($command)
-    $exists = $null -ne (Get-Command $command -ErrorAction SilentlyContinue)
-    return $exists
+# Create installation directory
+$installDir = "$env:USERPROFILE\BovineShell"
+if (-not (Test-Path $installDir)) {
+    Write-Host "Creating installation directory..." -ForegroundColor Yellow
+    New-Item -ItemType Directory -Path $installDir -Force | Out-Null
 }
 
-# Step 1: Install Scoop if it's not already installed
-if (-not (Test-CommandExists "scoop")) {
-    Write-Host "Step 1: Installing Scoop package manager..." -ForegroundColor Yellow
-    try {
-        Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
-        Invoke-RestMethod -Uri https://get.scoop.sh | Invoke-Expression
-        Write-Host "✓ Scoop installed successfully!" -ForegroundColor Green
-    }
-    catch {
-        Write-Host "✗ Failed to install Scoop. Error: $_" -ForegroundColor Red
-        exit 1
-    }
-}
-else {
-    Write-Host "✓ Scoop is already installed." -ForegroundColor Green
+# Function to check if cowsay is installed
+function Test-CowsayExists {
+    return $null -ne (Get-Command cowsay -ErrorAction SilentlyContinue)
 }
 
-# Step 2: Install cowsay (dependency)
-if (-not (Test-CommandExists "cowsay")) {
-    Write-Host "Step 2: Installing cowsay dependency..." -ForegroundColor Yellow
-    try {
+# Install cowsay if needed
+if (-not (Test-CowsayExists)) {
+    Write-Host "Installing cowsay dependency..." -ForegroundColor Yellow
+    if ($null -ne (Get-Command scoop -ErrorAction SilentlyContinue)) {
         scoop install cowsay
-        Write-Host "✓ cowsay installed successfully!" -ForegroundColor Green
+        Write-Host "✓ cowsay installed via Scoop" -ForegroundColor Green
+    } else {
+        Write-Host "! Scoop not found. Please install cowsay manually." -ForegroundColor Red
+        Write-Host "  You can install it by running: " -NoNewline
+        Write-Host "Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser; iwr -useb get.scoop.sh | iex; scoop install cowsay" -ForegroundColor Yellow
+        $continue = Read-Host "Continue anyway? (y/n)"
+        if ($continue -ne "y") {
+            Write-Host "Installation aborted." -ForegroundColor Red
+            exit
+        }
     }
-    catch {
-        Write-Host "✗ Failed to install cowsay. Error: $_" -ForegroundColor Red
-        exit 1
-    }
-}
-else {
-    Write-Host "✓ cowsay is already installed." -ForegroundColor Green
 }
 
-# Step 3: Add the BovineShell bucket if it doesn't exist
-Write-Host "Step 3: Adding BovineShell bucket to Scoop..." -ForegroundColor Yellow
-$bucketExists = $false
-$buckets = scoop bucket list
-if ($buckets -match "bovineshell") {
-    $bucketExists = $true
-}
-
-if (-not $bucketExists) {
-    try {
-        scoop bucket add bovineshell https://github.com/saedarm/BovineShell
-        Write-Host "✓ BovineShell bucket added successfully!" -ForegroundColor Green
-    }
-    catch {
-        Write-Host "✗ Failed to add BovineShell bucket. Error: $_" -ForegroundColor Red
-        exit 1
-    }
-}
-else {
-    Write-Host "✓ BovineShell bucket is already added." -ForegroundColor Green
-}
-
-# Step 4: Install BovineShell
-Write-Host "Step 4: Installing BovineShell..." -ForegroundColor Yellow
+# Download the main script
+Write-Host "Downloading BovineShell scripts..." -ForegroundColor Yellow
 try {
-    scoop install bovineshell
-    Write-Host "✓ BovineShell installed successfully!" -ForegroundColor Green
+    Invoke-WebRequest -Uri "https://raw.githubusercontent.com/saedarm/BovineShell/main/BovineShell.ps1" -OutFile "$installDir\BovineShell.ps1"
+    Invoke-WebRequest -Uri "https://raw.githubusercontent.com/saedarm/BovineShell/main/Voices.ps1" -OutFile "$installDir\Voices.ps1"
+    Write-Host "✓ Scripts downloaded successfully" -ForegroundColor Green
 }
 catch {
-    Write-Host "✗ Failed to install BovineShell. Error: $_" -ForegroundColor Red
+    Write-Host "✗ Failed to download scripts. Error: $_" -ForegroundColor Red
     exit 1
 }
+
+# Create shortcut functions in PowerShell profile
+$profileContent = @"
+
+# BovineShell Functions
+function bovineshell { & "$installDir\BovineShell.ps1" @args }
+function bovineshell-voices { & "$installDir\Voices.ps1" @args }
+
+"@
+
+# Check if profile exists, create if it doesn't
+if (-not (Test-Path $PROFILE)) {
+    Write-Host "Creating PowerShell profile..." -ForegroundColor Yellow
+    New-Item -Path $PROFILE -ItemType File -Force | Out-Null
+}
+
+# Add functions to profile
+Write-Host "Adding BovineShell to PowerShell profile..." -ForegroundColor Yellow
+Add-Content -Path $PROFILE -Value $profileContent
+Write-Host "✓ Profile updated successfully" -ForegroundColor Green
 
 # Display installation completion message
 Write-Host "
@@ -88,7 +77,7 @@ Write-Host "
 ╚═══════════════════════════════════════╝
 " -ForegroundColor Cyan
 
-Write-Host "IMPORTANT: You need to restart your PowerShell session before using BovineShell." -ForegroundColor Yellow
+Write-Host "IMPORTANT: You need to restart your PowerShell session to start using BovineShell." -ForegroundColor Yellow
 
 Write-Host "`nAfter restarting PowerShell, try BovineShell with: " -NoNewline
 Write-Host "bovineshell 'Hello, I can talk!'" -ForegroundColor Green
@@ -103,8 +92,7 @@ Write-Host "- See all available voices: " -NoNewline
 Write-Host "bovineshell-voices" -ForegroundColor Green
 
 Write-Host "
-For more information and examples, visit: https://github.com/saedarm/BovineShell
+Installation directory: $installDir
 " -ForegroundColor Cyan
 
-# Do NOT try to run the command here as it won't be available until PowerShell is restarted
 Write-Host "Please restart your PowerShell session now to start using BovineShell." -ForegroundColor Magenta
